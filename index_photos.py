@@ -167,8 +167,6 @@ def main(root_dir: str):
     print(f"Embedding {len(to_embed)} images on {device}...")
     for i in tqdm(range(0, len(to_embed), BATCH_SIZE)):
         batch = to_embed[i:i + BATCH_SIZE]
-        ids = np.array([fid for fid, _ in batch], dtype=np.int64)
-        paths = [sp for _, sp in batch]
 
         # Compute embeddings (may throw if an image is corrupt)
         good_ids = []
