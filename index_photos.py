@@ -68,13 +68,13 @@ def embed_images(
     """
     tensors = []
     for sp in image_paths:
-        img = Image.open(sp).convert("RGB")
-        tensors.append(preprocess(img))
+        img = Image.open(sp).convert("RGB") #uses pillow to convert image to RGB
+        tensors.append(preprocess(img)) #preprocess is a transform function from open_clip that resizes, normalizes, and converts image to tensor
 
-    batch = torch.stack(tensors).to(device)
-    feats = model.encode_image(batch).float()
-    feats = feats / feats.norm(dim=-1, keepdim=True)
-    return feats.cpu().numpy().astype(np.float32)
+    batch = torch.stack(tensors).to(device) #make one big batch tensor (4d) and move to device
+    feats = model.encode_image(batch).float() #get image embeddings from model (convert to float 32 if not already for compatibility with FAISS)
+    feats = feats / feats.norm(dim=-1, keepdim=True) #normalize embeddings
+    return feats.cpu().numpy().astype(np.float32) #move tensors to cpu and convert to numpy float32 for compatibility with FAISS
 
 
 def main(root_dir: str):
