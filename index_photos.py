@@ -188,10 +188,11 @@ def main(root_dir: str):
             continue
 
         feats = embed_images(model, preprocess, device, good_paths)
+        #returns the embeddings for the batch of images as a numpy float32 array
 
         # If these were updates, remove old vectors first
         index.remove_ids(np.array(good_ids, dtype=np.int64))
-        index.add_with_ids(feats, np.array(good_ids, dtype=np.int64))
+        index.add_with_ids(feats, np.array(good_ids, dtype=np.int64)) #
 
     # Save everything
     faiss.write_index(index, FAISS_PATH)
